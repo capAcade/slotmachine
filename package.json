@@ -1,0 +1,15 @@
+{
+  "name": "slotmachine",
+  "version": "1.0.0",
+  "description": "A slotmachine, that you can play for free",
+  "main": "slotmachine.js",
+  "scripts": {
+    "start": "electron index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hans Blum <jhlblum@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}

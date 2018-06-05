@@ -49,42 +49,40 @@ class SlotMachine {
 
     score() {
         if (this.allReelsHaveSameFace()) {
-            this.credits += (10 * this.reels[3].getFace().value)
-            console.log('jackpot')
+            this.credits += (6 * this.reels[3].getFace().value)
             return
         }
         if (this.threeConnectedReelsHaveSameFace()) {
             this.credits += (2 * this.reels[2].getFace().value)
-            console.log('you won a prize')
             return
         }
         if (this.twoCherries()) {
-            this.credits += 2
-            console.log('two cherries')
+            this.credits += 3
             return
         }
     }
 
     threeConnectedReelsHaveSameFace() {
-        if (this.reels[1].getFace() == this.reels[2].getFace()) {
-            return this.reels[0].getFace()==this.reels[1].getFace() || this.reels[3].getFace()==this.reels[1].getFace()
-        }
+        if (this.reels[1].isSame(this.reels[2])) {
+            return this.reels[0].isSame(this.reels[1]) || this.reels[3].isSame(this.reels[1])
+        }        
         return false
     }
 
     allReelsHaveSameFace()  {
-        let result =  
-            this.reels[3].getFace().name === this.reels[0].getFace().name && 
-            this.reels[2].getFace().name === this.reels[0].getFace().name && 
-            this.reels[1].getFace().name === this.reels[0].getFace().name            
-        return result
+        return
+            this.reels[3].isSame(this.reels[0]) && 
+            this.reels[2].isSame(this.reels[0]) && 
+            this.reels[1].isSame(this.reels[0])          
     }
 
     twoCherries() {
-        return 
-            (this.reels[0].getFace().name === 'cherry' && this.reels[1].getFace().name === 'cherry') ||
-            (this.reels[1].getFace().name === 'cherry' && this.reels[2].getFace().name === 'cherry') ||
-            (this.reels[2].getFace().name === 'cherry' && this.reels[3].getFace().name === 'cherry')
+        if (this.reels[1].isSame(this.reels[0]) || this.reels[1].isSame(this.reels[2])) {
+            return this.reels[1].getFace().name === 'cherry'
+        }
+        if (this.reels[2].isSame(this.reels[3])) {
+            return this.reels[2].getFace().name === 'cherry'
+        }
     }
 
     refresh() {
@@ -95,7 +93,7 @@ class SlotMachine {
     }
 
     quit() {
-        console.log('Quitting Game')
+        console.log('Insert coins')
         this.state = 'quit'
     }
 }
@@ -116,6 +114,10 @@ class Reel {
 
     getFace() {
         return this.faces[this.currentFaceIndex]
+    }
+
+    isSame(other) {
+        return this.faces[this.currentFaceIndex] === other.faces[other.currentFaceIndex] 
     }
  
 }

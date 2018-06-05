@@ -10,6 +10,6 @@
   "author": "Hans Blum <jhlblum@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.7.9"
+    "electron": "2.0.2"
   }
 }

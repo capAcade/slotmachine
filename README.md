@@ -39,5 +39,5 @@ A very simple fruit (or slot) machine. Press <space> to spin, click on insert co
 
 ## Issues
 
-If you find issues, please report bugs on https://github.com/capAcade/slotmachine/issues]
+If you find issues, please report bugs on [https://github.com/capAcade/slotmachine/issues]
 

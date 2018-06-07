@@ -3,7 +3,7 @@
     <head>
         <title>Slot machine</title>
         <style>
-            .reel { 
+            .reel {
                 width: 20%;
                 background: pink;
                 margin: 2px;
@@ -11,6 +11,11 @@
                 display: inline-block;
                 text-align: center;
             }
+            .slotMachineRow.center .reel {
+                background: purple;
+                color: white
+            }
+
         </style>
     </head>
     <body>
@@ -18,19 +23,19 @@
             <label for="credits">credits :</label><span id="credits">0</span>
         </div>
         <div class="slotMachine">
-            <div class="slotMachineRow">
+            <div class="slotMachineRow top">
                 <div class="reel" id="reel0-top">bar</div>
                 <div class="reel" id="reel1-top">cherry</div>
                 <div class="reel" id="reel2-top">cherry</div>
                 <div class="reel" id="reel3-top">cherry</div>
             </div>
-            <div class="slotMachineRow">
+            <div class="slotMachineRow center">
                 <div class="reel" id="reel0">bar</div>
                 <div class="reel" id="reel1">cherry</div>
                 <div class="reel" id="reel2">cherry</div>
                 <div class="reel" id="reel3">cherry</div>
             </div>
-            <div class="slotMachineRow">
+            <div class="slotMachineRow bottom">
                 <div class="reel" id="reel0-bottom">bar</div>
                 <div class="reel" id="reel1-bottom">cherry</div>
                 <div class="reel" id="reel2-bottom">cherry</div>

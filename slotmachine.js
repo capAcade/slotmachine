@@ -33,11 +33,13 @@ class SlotMachineController {
 
         this.slotMachine.addEventListener('reelchanged', (reel) => {
             for(let i=0; i<this.reelElements.length;i++) {
-                this.reelElements[i][reel.position].innerHTML = reel.getFace(i-1).name
+                this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
             }
         })
 
-        document.querySelector("input[value='Insert Coin'][type='button']").onclick = () => {this.slotMachine.addCredits(4)}
+        document.querySelector("input[value='Insert Coin'][type='button']").onclick = () => {
+            this.slotMachine.coinInserted()
+        }
         for (let reel of this.slotMachine.reels) {
             this.slotMachine.publish('reelchanged', reel)
         }
@@ -56,6 +58,10 @@ class SlotMachineController {
             if (keyEvent.key === 's' || keyEvent.key === 'S') {
                 this.slotMachine.spin().then(this.slotMachine.recalculateCredits, (error) => console.log(error))
                 return
+            }
+            if (keyEvent.key === 'c' || keyEvent.key === 'C' ) {
+                this.slotMachine.coinInserted();
+                return;
             }
             if (keyEvent.key === 'q' || keyEvent.key === 'Q') {
                 this.quit()
@@ -91,6 +97,10 @@ class SlotMachine {
     play() {
         this.state = 'playing';
         this.addCredits(20)
+    }
+
+    coinInserted() {
+        this.addCredits(4)
     }
 
     addEventListener(name, listeningFunction) {
@@ -138,18 +148,19 @@ class SlotMachine {
     }
 
     _score() {
+        let result = 0;
         if (this.allReelsHaveSameFace()) {
-            this.addCredits(6 * this.reels[3].getFace(0).value)
-            return
-        }
-        if (this.threeConnectedReelsHaveSameFace()) {
-            this.addCredits(2 * this.reels[2].getFace(0).value)
-            return
+            result = 6 * this.reels[3].getFace(1).value
+        } else if (this.threeConnectedReelsHaveSameFace()) {
+            result = 2 * this.reels[2].getFace(1).value
         }
         if (this.twoCherries()) {
-            this.addCredits(3)
-            return
+            this.result = 3
         }
+        console.log(`reels: ${this.reels[0].getFace(1).name},${this.reels[1].getFace(1).name},${this.reels[2].getFace(1).name},${this.reels[3].getFace(1).name}: ${result} credits won`)
+        if (result !== 0) {
+            this.addCredits(result)
+        } 
     }
 
     _threeConnectedReelsHaveSameFace() {
@@ -168,10 +179,10 @@ class SlotMachine {
 
     _twoCherries() {
         if (this.reels[1].isSame(this.reels[0]) || this.reels[1].isSame(this.reels[2]) ) {
-            return this.reels[1].getFace(0).isOneOf('cherry', 'bar')
+            return this.reels[1].getFace(1).isOneOf('cherry')
          }
         if (this.reels[2].isSame(this.reels[3])) {
-            return this.reels[2].getFace(0).name === 'cherry'
+            return this.reels[2].getFace(1).name === 'cherry'
         }
     }
 

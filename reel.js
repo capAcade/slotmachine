@@ -1,11 +1,13 @@
 class Carousel {
 
-    constructor(symbols) {
-        this.carousel = document.querySelector('.carousel')
+    constructor(elementId, symbols) {
+        this.elementId = elementId
+        console.log(`#${elementId}`)
+        this.carousel = document.querySelector(`#${elementId}`)
         this.symbols = symbols || ['watermelon', 'cherry', 'plum', 'seven', 'bar']
         this.initCells()
         this.theta = 360 / this.cells.length
-        this.rotator = false;
+        this.rotator = false
         this.changeCarousel()
     }
 
@@ -42,7 +44,7 @@ class Carousel {
     }
     
     next() {
-        this.selectedIndex = Math.floor(this.cells.length * Math.random())
+            this.selectedIndex = (Math.floor(this.cells.length * Math.random())) + this.selectedIndex + 400
     }
 
     rotate() {
@@ -58,4 +60,24 @@ class Carousel {
     }
 }
 
-window.carousel = new Carousel()
+class Carousels {
+    constructor() {
+        this.items = [new Carousel('carousel0'), new Carousel('carousel1'), new Carousel('carousel2')]
+    }        
+
+    rotate() {
+        for (let item of this.items) {
+            item.rotate()
+        }
+    }
+
+    stop() {
+        for (let item of this.items) {
+            item.stop()
+        }
+    }
+}
+
+window.carousels = new Carousels();
+
+

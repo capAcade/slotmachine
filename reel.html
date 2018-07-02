@@ -5,21 +5,43 @@
         <link rel="stylesheet" href="reel.css">
     </head>
     <body>
-        <div class="scene">
-            <div class="carousel">
-              <div class="carousel__cell" data-n="0">1</div>
-              <div class="carousel__cell" data-n="1">2</div>
-              <div class="carousel__cell" data-n="2">3</div>
-              <div class="carousel__cell" data-n="3">4</div>
-              <div class="carousel__cell" data-n="4">5</div>
-              <div class="carousel__cell" data-n="5">6</div>
-              <div class="carousel__cell" data-n="6">7</div>
-              <div class="carousel__cell" data-n="7">8</div>
+        <div class="slotmachine">
+            <div class="scene">
+                <div class="carousel" id="carousel0">
+                    <div class="carousel__cell" data-n="0">1</div>
+                    <div class="carousel__cell" data-n="1">2</div>
+                    <div class="carousel__cell" data-n="2">3</div>
+                    <div class="carousel__cell" data-n="3">4</div>
+                    <div class="carousel__cell" data-n="4">5</div>
+                    <div class="carousel__cell" data-n="5">6</div>
+                    <div class="carousel__cell" data-n="6">7</div>
+                    <div class="carousel__cell" data-n="7">8</div>
+                </div>
+                    <div class="carousel"  id="carousel1">
+                    <div class="carousel__cell" data-n="0">1</div>
+                    <div class="carousel__cell" data-n="1">2</div>
+                    <div class="carousel__cell" data-n="2">3</div>
+                    <div class="carousel__cell" data-n="3">4</div>
+                    <div class="carousel__cell" data-n="4">5</div>
+                    <div class="carousel__cell" data-n="5">6</div>
+                    <div class="carousel__cell" data-n="6">7</div>
+                    <div class="carousel__cell" data-n="7">8</div>
+                </div>
+                <div class="carousel" id="carousel2">
+                    <div class="carousel__cell" data-n="0">1</div>
+                    <div class="carousel__cell" data-n="1">2</div>
+                    <div class="carousel__cell" data-n="2">3</div>
+                    <div class="carousel__cell" data-n="3">4</div>
+                    <div class="carousel__cell" data-n="4">5</div>
+                    <div class="carousel__cell" data-n="5">6</div>
+                    <div class="carousel__cell" data-n="6">7</div>
+                    <div class="carousel__cell" data-n="7">8</div>
+                </div>
             </div>
-        </div>
-        <div style="text-align: left">
-            <input type="button" onclick="window.carousel.stop()" value="stop">
-            <input type="button" onclick="window.carousel.rotate()" value="start">
+            <div style="text-align: left">
+                <input type="button" onclick="window.carousels.stop()" value="stop">
+                <input type="button" onclick="window.carousels.rotate()" value="start">
+            </div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg">
             <defs>

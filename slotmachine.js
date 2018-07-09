@@ -29,10 +29,8 @@ class SlotMachineController {
         })
 
         this.slotMachine.addEventListener('reelchanged', (reel) => {
-            if(reel.id !== ('reel' + this.reelElements.length.toString())) {
-                for(let i=0; i<this.reelElements.length;i++) {
-                    this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
-                }
+            for(let i=0; i<this.reelElements.length;i++) {
+                this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
             }
         })
 
@@ -79,8 +77,7 @@ class SlotMachine {
         this.reels = [
             new Reel(this, 0, FACE_TYPES.all), 
             new Reel(this, 1, FACE_TYPES.all),
-            new Reel(this, 2, FACE_TYPES.all),
-            new Reel(this, 3, FACE_TYPES.all)
+            new Reel(this, 2, FACE_TYPES.all)
         ]
         this.state = undefined
         this.eventListeners = {
@@ -156,7 +153,7 @@ class SlotMachine {
         if (this.twoCherries()) {
             this.result = 3
         }
-        console.log(`reels: ${this.reels[0].getFace(1).name},${this.reels[1].getFace(1).name},${this.reels[2].getFace(1).name},${this.reels[3].getFace(1).name}: ${result} credits won`)
+        console.log(`reels: ${this.reels[0].getFace(1).name},${this.reels[1].getFace(1).name},${this.reels[2].getFace(1).name}: ${result} credits won`)
         if (result !== 0) {
             this.addCredits(result)
         } 
@@ -171,7 +168,6 @@ class SlotMachine {
 
     _allReelsHaveSameFace()  {
         return
-            this.reels[3].isSame(this.reels[0]) && 
             this.reels[2].isSame(this.reels[0]) && 
             this.reels[1].isSame(this.reels[0])          
     }
@@ -180,9 +176,6 @@ class SlotMachine {
         if (this.reels[1].isSame(this.reels[0]) || this.reels[1].isSame(this.reels[2]) ) {
             return this.reels[1].getFace(1).isOneOf('cherry')
          }
-        if (this.reels[2].isSame(this.reels[3])) {
-            return this.reels[2].getFace(1).name === 'cherry'
-        }
     }
 
     quit() {

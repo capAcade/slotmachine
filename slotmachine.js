@@ -12,19 +12,16 @@ class SlotMachineController {
         this.reelElements = [[
                 document.getElementById('reel0-top'),
                 document.getElementById('reel1-top'),
-                document.getElementById('reel2-top'),
-                document.getElementById('reel3-top')
+                document.getElementById('reel2-top')
             ],[
                 document.getElementById('reel0'),
                 document.getElementById('reel1'),
-                document.getElementById('reel2'),
-                document.getElementById('reel3')
+                document.getElementById('reel2')
             ],
             [
                 document.getElementById('reel0-bottom'),
                 document.getElementById('reel1-bottom'),
-                document.getElementById('reel2-bottom'),
-                document.getElementById('reel3-bottom')
+                document.getElementById('reel2-bottom')
             ]
         ]
         this.slotMachine.addEventListener('creditschanged', (credits) => {
@@ -32,8 +29,10 @@ class SlotMachineController {
         })
 
         this.slotMachine.addEventListener('reelchanged', (reel) => {
-            for(let i=0; i<this.reelElements.length;i++) {
-                this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
+            if(reel.id !== ('reel' + this.reelElements.length.toString())) {
+                for(let i=0; i<this.reelElements.length;i++) {
+                    this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
+                }
             }
         })
 

@@ -87,7 +87,6 @@ class SlotMachine {
         this.score = this._score.bind(this)
         this.twoCherries = this._twoCherries.bind(this)
         this.allReelsHaveSameFace = this._allReelsHaveSameFace.bind(this)
-        this.threeConnectedReelsHaveSameFace = this._threeConnectedReelsHaveSameFace.bind(this)
     }
 
     play() {
@@ -146,24 +145,14 @@ class SlotMachine {
     _score() {
         let result = 0;
         if (this.allReelsHaveSameFace()) {
-            result = 6 * this.reels[3].getFace(1).value
-        } else if (this.threeConnectedReelsHaveSameFace()) {
             result = 2 * this.reels[2].getFace(1).value
         }
         if (this.twoCherries()) {
             this.result = 3
         }
-        console.log(`reels: ${this.reels[0].getFace(1).name},${this.reels[1].getFace(1).name},${this.reels[2].getFace(1).name}: ${result} credits won`)
         if (result !== 0) {
             this.addCredits(result)
         } 
-    }
-
-    _threeConnectedReelsHaveSameFace() {
-        if (this.reels[1].isSame(this.reels[2])) {
-            return this.reels[0].isSame(this.reels[1]) || this.reels[3].isSame(this.reels[1])
-        }        
-        return false
     }
 
     _allReelsHaveSameFace()  {

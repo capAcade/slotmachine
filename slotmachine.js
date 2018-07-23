@@ -1,3 +1,4 @@
+
 /** MVP: Two reel slot machine. Each reel has four faces. 
  * When player moves the stick down, the reels start spinning.
  * 
@@ -5,32 +6,35 @@
  * that faceTypes credits.
  */
 
+
+
 class SlotMachineController {
     constructor() {
+        this.carousel = new Carousel()
         this.slotMachine = new SlotMachine(new FaceTypes())
         this.creditsElement = document.getElementById('credits')
         this.reelElements = [[
-                document.getElementById('reel0-top'),
-                document.getElementById('reel1-top'),
-                document.getElementById('reel2-top')
-            ],[
-                document.getElementById('reel0'),
-                document.getElementById('reel1'),
-                document.getElementById('reel2')
-            ],
-            [
-                document.getElementById('reel0-bottom'),
-                document.getElementById('reel1-bottom'),
-                document.getElementById('reel2-bottom')
-            ]
+            document.getElementById('reel0-top'),
+            document.getElementById('reel1-top'),
+            document.getElementById('reel2-top')
+        ], [
+            document.getElementById('reel0'),
+            document.getElementById('reel1'),
+            document.getElementById('reel2')
+        ],
+        [
+            document.getElementById('reel0-bottom'),
+            document.getElementById('reel1-bottom'),
+            document.getElementById('reel2-bottom')
+        ]
         ]
         this.slotMachine.addEventListener('creditschanged', (credits) => {
             this.creditsElement.innerHTML = '' + credits
         })
 
         this.slotMachine.addEventListener('reelchanged', (reel) => {
-            for(let i=0; i<this.reelElements.length;i++) {
-                this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i-1).name}"></use></svg>`
+            for (let i = 0; i < this.reelElements.length; i++) {
+                this.reelElements[i][reel.position].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${reel.getFace(i - 1).name}"></use></svg>`
             }
         })
 
@@ -56,7 +60,7 @@ class SlotMachineController {
                 this.slotMachine.spin().then(this.slotMachine.recalculateCredits, (error) => console.log(error))
                 return
             }
-            if (keyEvent.key === 'c' || keyEvent.key === 'C' ) {
+            if (keyEvent.key === 'c' || keyEvent.key === 'C') {
                 this.slotMachine.coinInserted();
                 return;
             }
@@ -75,7 +79,7 @@ class SlotMachine {
     constructor(FACE_TYPES) {
         this.credits = 0
         this.reels = [
-            new Reel(this, 0, FACE_TYPES.all), 
+            new Reel(this, 0, FACE_TYPES.all),
             new Reel(this, 1, FACE_TYPES.all),
             new Reel(this, 2, FACE_TYPES.all)
         ]
@@ -99,7 +103,7 @@ class SlotMachine {
     }
 
     addEventListener(name, listeningFunction) {
-        if (!this.eventListeners[name])  {
+        if (!this.eventListeners[name]) {
             this.eventListeners[name] = []
         }
         this.eventListeners[name].push(listeningFunction)
@@ -110,7 +114,7 @@ class SlotMachine {
             return
         }
         for (let listener of this.eventListeners[eventName]) {
-            if (typeof(listener) === typeof(function(){})) {
+            if (typeof (listener) === typeof (function () { })) {
                 listener(data)
             }
         }
@@ -152,19 +156,19 @@ class SlotMachine {
         }
         if (result !== 0) {
             this.addCredits(result)
-        } 
+        }
     }
 
-    _allReelsHaveSameFace()  {
+    _allReelsHaveSameFace() {
         return
-            this.reels[2].isSame(this.reels[0]) && 
-            this.reels[1].isSame(this.reels[0])          
+        this.reels[2].isSame(this.reels[0]) &&
+            this.reels[1].isSame(this.reels[0])
     }
 
     _twoCherries() {
-        if (this.reels[1].isSame(this.reels[0]) || this.reels[1].isSame(this.reels[2]) ) {
+        if (this.reels[1].isSame(this.reels[0]) || this.reels[1].isSame(this.reels[2])) {
             return this.reels[1].getFace(1).isOneOf('cherry')
-         }
+        }
     }
 
     quit() {
@@ -175,7 +179,7 @@ class SlotMachine {
 class Reel {
     constructor(slotMachine, position, faces) {
         this.slotMachine = slotMachine
-        this.state =  'unlocked'
+        this.state = 'unlocked'
         this.id = 'reel' + position
         this.position = position
         this.faces = faces
@@ -189,7 +193,7 @@ class Reel {
 
     getFace(n) {
         let i = (this.currentFaceIndex + n) % this.faces.length
-        if (i<0) {
+        if (i < 0) {
             i = this.faces.length + i
         }
         return this.faces[i]
@@ -197,11 +201,11 @@ class Reel {
 
 
     isSame(other) {
-        return this.faces[this.currentFaceIndex] === other.faces[other.currentFaceIndex] 
+        return this.faces[this.currentFaceIndex] === other.faces[other.currentFaceIndex]
     }
 
 
- 
+
 }
 
 class Face {
@@ -217,9 +221,9 @@ class Face {
 
 class FaceTypes {
     constructor() {
-        this.cherry = new Face('cherry',1)
+        this.cherry = new Face('cherry', 1)
         this.bar = new Face('bar', 2)
-        this.plum = new Face('plum',4)
+        this.plum = new Face('plum', 4)
         this.seven = new Face('seven', 7)
         this.watermelon = new Face('watermelon', 12)
         this.bell = new Face('bell', 18)
@@ -227,6 +231,88 @@ class FaceTypes {
     }
 }
 
-window.onload = function() {
+window.onload = function () {
     new SlotMachineController().play()
 }
+
+class Carousel {
+
+    constructor(elementId, symbols) {
+        this.elementId = elementId
+        console.log(`#${elementId}`)
+        this.carousel = document.querySelector(`#${elementId}`)
+        this.symbols = symbols || ['watermelon', 'cherry', 'plum', 'seven', 'bar']
+        this.initCells()
+        this.theta = 360 / this.cells.length
+        this.rotator = false
+        this.changeCarousel()
+    }
+
+    rotateCarousel() {
+        let steps = 3 * this.cells.length + this.selectedIndex
+        for (let step=0; step<steps; step++) {
+            this.carousel.style.transform = `translateZ(-${this.radius}px) rotateX(${this.theta * steps}deg)`
+        }
+    }
+
+    initCells() {
+        this.cells = this.carousel.querySelectorAll('.carousel__cell')
+        for (let i=0; i<this.cells.length; i++) {
+            let symbol = this.symbols[i % this.symbols.length]
+            this.cells[i].innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="#${symbol}"></use></svg>`
+        }
+        this.selectedIndex = 0
+        this.cellWidth = this.carousel.offsetWidth
+        this.cellHeight = this.carousel.offsetHeight
+    }
+
+    changeCarousel() {
+        this.theta = 360 / this.cells.length
+        this.radius = Math.round( ( this.cellHeight / 2) / Math.tan( Math.PI / this.cells.length) )
+        let i = 0
+        this.cells.forEach(cell => {
+            this.showCell(cell, i++)
+        })
+    }
+
+    showCell(cell, i) {
+        cell.style.opacity = 1
+        cell.style.transform = `rotateX(${this.theta * i}deg) translateZ(${this.radius}px)`
+    }
+    
+    next() {
+            this.selectedIndex = (Math.floor(this.cells.length * Math.random())) + this.selectedIndex + 400
+    }
+
+    rotate() {
+        this.next()
+        this.rotateCarousel()
+    }
+
+    stop() {
+        if (this.rotator) {
+            window.clearInterval(this.rotator)
+        }
+        this.rotator = false
+    }
+}
+
+class Carousels {
+    constructor() {
+        this.items = [new Carousel('carousel0'), new Carousel('carousel1'), new Carousel('carousel2')]
+    }        
+
+    rotate() {
+        for (let item of this.items) {
+            item.rotate()
+        }
+    }
+
+    stop() {
+        for (let item of this.items) {
+            item.stop()
+        }
+    }
+}
+
+window.carousels = new Carousels();
